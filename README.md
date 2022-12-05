@@ -1,2 +1,4 @@
 # LabeX
-Frontend
+Projeto de Frontend
+
+🚧 Em fase de finalização 🚧
