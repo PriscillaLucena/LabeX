@@ -1,5 +1,5 @@
-# LabeX
-Projeto de Frontend
+<h1>LabeX</h1>
+Projeto de Frontend desenvolvido individualmente.
 
 🚧 Em fase de estilização com Material UI 🚧
 </br>
@@ -14,7 +14,7 @@ Projeto de Frontend
   </ul>
   </br>
   </br>
-  <h1>🛠️ Tecnologias Utilizadas:</h1>
+  <h3>🛠️ Tecnologias Utilizadas:</h3>
   <br></br>
    <ul>
     <li> React; </li>   
