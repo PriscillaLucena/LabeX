@@ -58,7 +58,7 @@ export default function ListTripsPage() {
     }        
 
     const passaInfosAdminPage = () =>{
-            <AdminHomePage
+        return <AdminHomePage
                 id={id}
                 lista={listaViagens}
             />
