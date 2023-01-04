@@ -12,7 +12,9 @@ Projeto de Frontend
     "password": "123456"
     }
   </ul>
-  h1>🛠️ Tecnologias Utilizadas:</h1>
+  </br>
+  </br>
+  <h1>🛠️ Tecnologias Utilizadas:</h1>
   <br></br>
    <ul>
     <li> React; </li>   
