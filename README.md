@@ -9,7 +9,7 @@ Projeto de Frontend desenvolvido individualmente.
     <li> Para acessar a área restrita: </br>
     { </br>
     "email": "pri@gmail.com.br", </br>
-    "password": "123456"
+    "password": "123456" </br>
     } </br>
   </ul>
   </br>
