@@ -14,8 +14,8 @@ Projeto de Frontend desenvolvido individualmente.
   </ul>
   </br>
   </br>
-  <h3>🛠️ Tecnologias Utilizadas:</h3>
-  <br></br>
+  <h2>🛠️ Tecnologias Utilizadas:</h2>
+  </br>
    <ul>
     <li> React; </li>   
     <li> React Router; </li>
