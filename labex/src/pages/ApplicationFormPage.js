@@ -1,114 +1,99 @@
-import React, { useEffect, useState } from "react";
-import api from "../components/ConfigApi";
-import styled from "styled-components"
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import Header from "../components/Header";
+import axios from "axios";
+import { URL_BASE } from "../components/UrlBase";
+import { useParams } from "react-router-dom";
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import useForm from "../Hooks/useForm";
+// import TextField from '@mui/material/TextField';
+// import Box from '@mui/material/Box';
 
-function ApplicationFormPage(props) {
+function ApplicationFormPage() {
 
-    const navigate = useNavigate()
+    const { form, onChange, cleanFields } = useForm({ name: "", age: "", text: "", profession: "", country: "" })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+    const { id } = useParams()
 
-    //o "estado"
+    console.log(form.country)
+    console.log(form.name)
+    console.log(form.age)
+    console.log(form.text)
+    console.log(form.profession)
 
-    const [name, setName] = useState("");
-    const [age, setAge] = useState("");
-    const [text, setText] = useState("");
-    const [profession, setProfession] = useState("")
-    const [country, setCountry] = useState("")
+    const apllyToTrip = (event) => {
+        event.preventDefault();
+        setLoading(true);
 
-     //POST PARA ENVIAR DADOS DO VIAJANTE -- endpoint do apply to trip
-
-    const apllyToTrip = (id) => {
-
-        const body = {
-            "name": name,
-            "age": age,
-            "applicationText": text,
-            "profession": profession,
-            "country": country
-        }
-
-        api.post(`/trips/${id}/apply`, body)
+        axios.post(`${URL_BASE}/trips/${id}/apply`, form)
             .then(() => {
-                confereAge()
-                console.log("deu certo!!")
-                limpaInput()
+                setLoading(false)
+                alert("Obrigada por se inscrever")
+                cleanFields()
             })
             .catch((error) => {
-                console.log(error.response.data)
-                limpaInput()
+                setLoading(false)
+                setError(error.data)
+                cleanFields()
             })
-    }
+    };
 
-    //função para limpar os inputs após envio do formulário
-
-    const limpaInput = () => {
-        return setName(""),
-            setAge(""),
-            setText(""),
-            setProfession(""),
-            setCountry("")
-    }
-
-
-    //onChange para os Inputs controlados
-
-    const onChangeName = (event) => {
-        setName(event.target.value)
-    }
-
-    const onChangeAge = (event) => {
-        setAge(event.target.value)
-    }
-
-    const onChangeApplyText = (event) => {
-        setText(event.target.value)
-    }
-
-    const onChangeProfession = (event) => {
-        setProfession(event.target.value)
-    }
-
-    const onChangeCountry = (event) => {
-        setCountry(event.target.value)
-    }
-
-
-    //FUNÇÃO PARA VERIFICAR SE TEM MAIS DE 18 ANOS
-
-    const confereAge = () => {
-        if (age < 18) {
-            alert("voce nao pode se inscrever, e menor de idade")
-        }
-    }
 
     return (
         <div>
-           <h1>Formulário de Inscrição</h1> 
-           
-            <form>
-                <input value={name}
-                    onChange={onChangeName}
-                    placeholder="Digite seu nome completo"></input>
-                <input value={age}
-                    onChange={onChangeAge}
-                    placeholder="Digite sua idade"></input>
-                <input value={text}
-                    onChange={onChangeApplyText}
-                    placeholder="Digite o porquê quer viajar"></input>
-                <input value={profession}
-                    onChange={onChangeProfession}
-                    placeholder="Digite seua profissão"></input>
-                <input value={country}
-                    onChange={onChangeCountry}
-                    placeholder="Digite seu país"></input>
-                
-                <button onClick={() => apllyToTrip(props.id)}>Apply</button>
+            <Header
+                nome={"forms"}
+            />
+
+            {loading && <CircularProgress />}
+            {!loading && error && <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                This is an error alert — <strong>check it out!</strong>
+            </Alert>}
+
+            <form onSubmit={apllyToTrip}>
+                <input
+                    value={form.name}
+                    onChange={onChange}
+                    placeholder={"Nome"}
+                    name={"name"}
+                    required
+                ></input>
+                <input
+                    value={form.age}
+                    onChange={onChange}
+                    placeholder={"Idade"}
+                    name={"age"}
+                    min={18}
+                    required
+                ></input>
+                <input
+                    value={form.text}
+                    onChange={onChange}
+                    placeholder={"Porquê quer viajar"}
+                    name={"text"}
+                ></input>
+                <input
+                    value={form.profession}
+                    onChange={onChange}
+                    placeholder={"Profissão"}
+                    name={"profession"}
+                ></input>
+                <input
+                    value={form.country}
+                    onChange={onChange}
+                    placeholder={"País"}
+                    name={"country"}
+                    required
+                ></input>
+
+                <Button variant="outlined">Apply</Button>
             </form>
-            
 
-            <button onClick={() => navigate("/trips/list")}>Voltar</button>
-
-        </div>
+        </div >
     )
 }
 

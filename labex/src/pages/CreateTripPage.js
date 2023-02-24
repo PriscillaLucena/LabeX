@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import api from "../components/ConfigApi";
-import styled from "styled-components"
-import { useProtectedPage } from "../components/useProtectedPage";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { URL_BASE } from "../components/UrlBase";
+import { useProtectedPage } from "../Hooks/useProtectedPage";
+import Header from "../components/Header";
+import axios from "axios";
+import Button from '@mui/material/Button';
 
 
 export default function CreateTripPage() {
-
-    const navigate = useNavigate()
 
     useProtectedPage();
 
@@ -31,7 +30,7 @@ export default function CreateTripPage() {
         }
 
         try {
-            const response = await api.post(`/trips`, body, {
+            const response = await axios.post(`${URL_BASE}/trips`, body, {
                 headers: {
                     auth: localStorage.getItem("token")
                 }
@@ -45,30 +44,6 @@ export default function CreateTripPage() {
         }
     }
 
-    //onChange para controlar os inputs
-
-    const onChangeName = (event) => {
-        setName(event.target.value)
-    }
-
-    const onChangePlanet = (event) => {
-        setPlanet(event.target.value)
-    }
-
-    const onChangeDate = (event) => {
-        setDate(event.target.value)
-    }
-
-    const onChangeDescription = (event) => {
-        setDescription(event.target.value)
-    }
-
-    const onChangeDurationInDays = (event) => {
-        setDurationInDays(event.target.value)
-    }
-
-    
-    //função para limpar os inputs após envio do formulário
 
     const limpaInput = () => {
         return setName(""),
@@ -80,35 +55,37 @@ export default function CreateTripPage() {
 
     return (
         <div>
-            <h2>Create Trip Page</h2>
-            <button onClick={() => navigate("/admin/trips/list")}>Voltar</button>
+            <Header
+                nome={"create trip"}
+            />
+
             <form>
                 <input
                     placeholder="Nome Viagem"
-                    onChange={onChangeName}
+                    onChange={(e) => setName(e.target.value)}
                     value={name}></input>
 
                 <input
                     placeholder="Nome Planeta"
-                    onChange={onChangePlanet}
+                    onChange={(e) => setPlanet(e.target.value)}
                     value={planet}></input>
 
                 <input
                     placeholder="Data Viagem"
-                    onChange={onChangeDate}
+                    onChange={(e) => setDate(e.target.value)}
                     value={date}></input>
 
                 <input
                     placeholder="Descrição Viagem"
-                    onChange={onChangeDescription}
+                    onChange={(e) => setDescription(e.target.value)}
                     value={description}></input>
 
                 <input
                     placeholder="Duração em dias"
-                    onChange={onChangeDurationInDays}
+                    onChange={(e) => setDurationInDays(e.target.value)}
                     value={durationInDays}></input>
 
-                <button onClick={() => createTrip()}>Enviar</button>
+                <Button variant="outlined" onClick={() => createTrip()}>Enviar</Button>
             </form>
         </div>
     )

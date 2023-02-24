@@ -1,66 +1,60 @@
-import React, { useEffect, useState } from "react";
-import api from "../components/ConfigApi";
-import styled from "styled-components"
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import { URL_BASE } from "../components/UrlBase";
+import axios from "axios";
+import { goToAdminTripsList } from "../Routes/RouteFunctions";
+// import Button from '@mui/material/Button';
 
 
 export default function LoginPage() {
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const navigate = useNavigate ();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     //endpoint login
 
-    const submitLogin = async () => {
-
+    const submitLogin = async (e) => {
+    e.preventDefault()
         const body = {
             email: email,
             password: password
         }
 
         try {
-            const response = await api.post(`/login`, body)
-            console.log(response.data)
-            localStorage.setItem("token", response.data.token)
-            navigate ("/admin/trips/list")
+            const response = await axios.post(`${URL_BASE}/login`, body)
+            console.log(response.data);
+            localStorage.setItem("token", response.data.token);
+            goToAdminTripsList(navigate);
+
         } catch (error) {
             console.log(error.response)
         }
     };
 
-    //inputs controlados - onchange
-
-    const onChangeEmail = (event) => {
-        setEmail(event.target.value)
-    }
-
-    const onChangePassword = (event) => {
-        setPassword(event.target.value)
-    }
-
-    //função muda de pagina
-
-   const navigate = useNavigate ()
-
     return (
         <div>
-            <h2>Login Page</h2>
-
+            <Header
+            nome={"login"}
+            />
+        <form onClick={submitLogin}>
             <input
                 type="email"
                 value={email}
-                onChange={onChangeEmail}
+                onChange={(e)=>setEmail(e.target.value)}
                 placeholder="e-mail"
             />
 
             <input
                 type="password"
                 value={password}
-                onChange={onChangePassword}
-                placeholder="senha"
+                onChange={(e)=>setPassword(e.target.value)}
+                label="senha"
             />
 
-            <button onClick={() => submitLogin()}>enviar</button>
+            <button variant="outlined" >enviar</button>
+            </form>
         </div>
     )
 }

@@ -1,60 +1,91 @@
 import React, { useEffect, useState } from "react";
-import api from "../components/ConfigApi";
-import styled from "styled-components"
-import { useProtectedPage } from "../components/useProtectedPage"
+import { URL_BASE } from "../components/UrlBase";
+import { useProtectedPage } from "../Hooks/useProtectedPage"
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import axios from "axios";
+// import Button from '@mui/material/Button';
 
-export default function TripDetailsPage(props) {
-
-    const navigate = useNavigate();
+export default function TripDetailsPage() {
 
     useProtectedPage();
 
     const [detail, setDetail] = useState({})
-    const [candidatos, setCandidatos] = useState({})
+    const [candidatos, setCandidatos] = useState([])
+    const [approved, setApproved] = useState([])
     const { id } = useParams()
 
-    //para renderizar assim que entrar na página
+    console.log('candidatos', candidatos)
+    console.log('detail', detail)
+    console.log('approved', approved)
 
-    useEffect(() => {
-        getTripDetail()
-    }, [])
+    useEffect(() => {getCandidatos()}, [id]);
+       const getCandidatos = () => {
 
-    console.log(id)
-
-    //para pegar os detalhes da viagem - endpoint do get trip detail
-
-    const getTripDetail = () => {
-        api.get(`/trip/${id}`, {
+     axios.get(`${URL_BASE}/trip/${id}`, {
             headers: {
                 auth: localStorage.getItem("token")
             }
         })
             .then((response) => {
                 setDetail(response.data.trip)
-                setCandidatos(response.data)
-                console.log(response.data)
+                setApproved(response.data.trip.approved)
+                setCandidatos(response.data.trip.candidates)
             })
             .catch((error) => {
                 console.log(error.response)
             })
+        }
+
+    useEffect(() => {decideCandidate()}, [id]);
+
+    const decideCandidate = (approve, candId) => {
+        const body = {
+            approve: approve
+        }
+        axios.put(`${URL_BASE}/trips/${id}/candidates/${candId}/decide`, body, {  
+            headers: {
+                auth: localStorage.getItem("token")
+            }
+        }).then(() => {
+            if (approve) {
+                alert("Candidato aprovado!")
+                getCandidatos()
+            } else {
+                alert("Candidato reprovado!")
+            };
+
+        }).catch((error) => {
+            console.log(error.response.data)
+        })
 
     }
 
-    
+    const listaCandidatos = candidatos.map((cand) => {
+        return <div key={cand.id}>
+            <p>Nome:{cand.name}</p>
+            <p>Texto: {cand.applicationText}</p>
+            <p>Idade: {cand.age}</p>
+            <p>País: {cand.country}</p>
+            <button variant="outlined" onClick={() => decideCandidate(true, cand.id)} >aceitar</button>
+            <button variant="outlined" onClick={() => decideCandidate(false, cand.id)} >reprovar</button>
+            {/* {decideCandidate === true ? listaCandidatos : listaVazia} */}
+        </div>
+    })
+
     return (
         <div>
-            <h2>Trip Detail Page</h2>
+            <Header
+                nome={"trips detail"}
+            />
 
             <h3>Viagem: {detail.name}</h3>
             <p><strong>Descrição:</strong>{detail.description}</p>
             <p><strong>Planeta:</strong>{detail.planet}</p>
             <p><strong>Data:</strong>{detail.date}</p>
             <p><strong>Duração:</strong>{detail.durationInDays}</p>
-
-            <button onClick={() => navigate("/admin/trips/list")}>Voltar</button>
-            
+            <h3><strong>Candidatos:</strong></h3>
+            {listaCandidatos}
         </div>
     )
 }

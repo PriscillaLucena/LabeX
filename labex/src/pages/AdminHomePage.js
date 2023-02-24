@@ -1,64 +1,61 @@
-import React, { useEffect, useState } from "react";
-import api from "../components/ConfigApi";
-import styled from "styled-components";
+import React from "react";
+import { URL_BASE } from "../components/UrlBase";
 import { useParams } from "react-router-dom";
-import { useProtectedPage } from "../components/useProtectedPage";
+import { useProtectedPage } from "../Hooks/useProtectedPage";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header"
+import useRequestData from "../Hooks/useRequestData"
+import axios from "axios";
+// import Button from '@mui/material/Button';
+// import CircularProgress from '@mui/material/CircularProgress';
+// // import Alert from '@mui/material/Alert';
+// import AlertTitle from '@mui/material/AlertTitle';
+import { goToDetailTripsList } from "../Routes/RouteFunctions";
 
 export default function AdminHomePage() {
 
-    const [trip, setTrip] = useState([])
+    const [data, loading, error, GetTrip] = useRequestData(`${URL_BASE}/trips`)
     const navigate = useNavigate()
-    const {id} = useParams
-    
+    const { id } = useParams
+
     useProtectedPage();
 
-    useEffect(() => { getTrip() }, [])
 
-    //PUXA AS VIAGENS CRIADAS --- endpoint do Get Trips
-
-    const getTrip = async () => {
-        try {
-            const response = await api.get("/trips")
-            setTrip(response.data.trips)
-            console.log(response.data.trips.id)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    //map pra renderizar a lista
-
-    const listaViagens = trip.map((viagem) => {
-
-        return <div key={viagem.id}>
-            <h3 onClick={() => navigate(`/admin/trips/${viagem.id}`)}> Viagem: {viagem.name}</h3>
-            <button onClick={() => deleteTrip(id)}>Delete</button>
-        </div>
-    })
-
-    //Deleta viagens - endpoint delete trip
-
-    const deleteTrip = () => {
-            api.delete(`/trips/${id}`, {
-                headers: {
-                    auth: localStorage.getItem("token")
-                }
-            }).then((response)=>{
-                console.log("deu certo!")
-                getTrip()
-            }).catch ((error)=>{
+    const deleteTrip = (id) => {
+        axios.delete(`${URL_BASE}/trips/${id}`, {
+            headers: {
+                auth: localStorage.getItem("token")
+            }
+        }).then(() => {
+            GetTrip()
+            console.log("deu certo!")
+        }).catch((error) => {
             console.log(error.data)
             alert("deu errado!")
         })
     }
 
+    const listaViagens = data && data.map((viagem) => {
+        return <div key={viagem.id}>
+            <h3 onClick={() => goToDetailTripsList(navigate, viagem.id)}> Viagem: {viagem.name}</h3>
+            <button variant="outlined" onClick={() => deleteTrip(viagem.id)}>Delete</button>
+        </div>
+    })
+
     return (
         <div>
-            <h2>Admin Page</h2>
-            <button onClick={() => navigate("/admin/trips/create")}>Criar Viagem</button>
-            {listaViagens}
-            <button onClick={() => navigate("/login")}>Voltar</button>
+
+            <Header
+                nome={"admin home"}
+            />
+            {/* {loading && <CircularProgress />}
+            {!loading && error && <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                This is an error alert — <strong>check it out!</strong>
+            </Alert>} */}
+            {!loading && data && data.length > 0 && listaViagens}
+            {!loading && data && data.length === 0 && <p>Não há viagens!</p>}
+
         </div>
     )
 }
