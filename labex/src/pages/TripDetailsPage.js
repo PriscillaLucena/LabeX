@@ -19,10 +19,10 @@ export default function TripDetailsPage() {
     console.log('detail', detail)
     console.log('approved', approved)
 
-    useEffect(() => {getCandidatos()}, [id]);
-       const getCandidatos = () => {
+    useEffect(() => { getCandidatos() }, [id]);
+    const getCandidatos = () => {
 
-     axios.get(`${URL_BASE}/trip/${id}`, {
+        axios.get(`${URL_BASE}/trip/${id}`, {
             headers: {
                 auth: localStorage.getItem("token")
             }
@@ -35,15 +35,13 @@ export default function TripDetailsPage() {
             .catch((error) => {
                 console.log(error.response)
             })
-        }
-
-    useEffect(() => {decideCandidate()}, [id]);
+    }
 
     const decideCandidate = (approve, candId) => {
         const body = {
             approve: approve
         }
-        axios.put(`${URL_BASE}/trips/${id}/candidates/${candId}/decide`, body, {  
+        axios.put(`${URL_BASE}/trips/${id}/candidates/${candId}/decide`, body, {
             headers: {
                 auth: localStorage.getItem("token")
             }
@@ -59,7 +57,7 @@ export default function TripDetailsPage() {
             console.log(error.response.data)
         })
 
-    }
+    };
 
     const listaCandidatos = candidatos.map((cand) => {
         return <div key={cand.id}>
@@ -69,7 +67,6 @@ export default function TripDetailsPage() {
             <p>País: {cand.country}</p>
             <button variant="outlined" onClick={() => decideCandidate(true, cand.id)} >aceitar</button>
             <button variant="outlined" onClick={() => decideCandidate(false, cand.id)} >reprovar</button>
-            {/* {decideCandidate === true ? listaCandidatos : listaVazia} */}
         </div>
     })
 
@@ -78,14 +75,13 @@ export default function TripDetailsPage() {
             <Header
                 nome={"trips detail"}
             />
-
             <h3>Viagem: {detail.name}</h3>
             <p><strong>Descrição:</strong>{detail.description}</p>
             <p><strong>Planeta:</strong>{detail.planet}</p>
             <p><strong>Data:</strong>{detail.date}</p>
             <p><strong>Duração:</strong>{detail.durationInDays}</p>
             <h3><strong>Candidatos:</strong></h3>
-            {listaCandidatos}
+            {candidatos.length > 0 ? listaCandidatos : <h3>Ainda não há ninguém inscrito!</h3>}
         </div>
     )
 }
