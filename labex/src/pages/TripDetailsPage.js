@@ -68,7 +68,13 @@ export default function TripDetailsPage() {
             <button variant="outlined" onClick={() => decideCandidate(true, cand.id)} >aceitar</button>
             <button variant="outlined" onClick={() => decideCandidate(false, cand.id)} >reprovar</button>
         </div>
-    })
+    });
+
+    const listaAprovados = approved.map((cand) => {
+        return <div>
+            <p>Nome: {cand.name}</p>
+        </div>
+    });
 
     return (
         <div>
@@ -82,6 +88,8 @@ export default function TripDetailsPage() {
             <p><strong>Duração:</strong>{detail.durationInDays}</p>
             <h3><strong>Candidatos:</strong></h3>
             {candidatos.length > 0 ? listaCandidatos : <h3>Ainda não há ninguém inscrito!</h3>}
+            <h4>Candidatos aprovados:</h4>
+            {listaAprovados}
         </div>
     )
 }

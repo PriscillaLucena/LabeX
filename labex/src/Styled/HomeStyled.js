@@ -15,7 +15,37 @@ export const ContainerGeral = styled.div`
 `
 
 export const ContainerBotoes = styled.div`
-        margin-left: 10px;
-    
+    display: flex;
+    justify-content: center;
+    justify-content: space-evenly;
+`
+
+export const Botoes = styled.button`
+    display: flex;
+    align-items: center;
+    /* margin: 1rem; */
+    padding: 1rem;
+    weight: 4rem;
+    height: 3rem;
+    font-size: 1.2rem;
+    border-radius: 10px 20px;
+    background-color: #BA55D3;
+    cursor: pointer;
+    font-family: 'Roboto';
+    font-weight: 600;
+    color: #800080;
+`
+
+export const Letras = styled.h1`
+    font-family: 'Advent Pro';
+    font-size: 4rem;
+    font-weight: 500;
+    color: #B22222;
+`
+export const Letras2 = styled.span`
+    font-family: 'Advent Pro';
+    font-size: 5rem;
+    font-weight: 800;
+    color: #800080;
 `
    

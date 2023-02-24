@@ -9,7 +9,7 @@ import LoginPage from "../pages/LoginPage";
 import TripDetailsPage from "../pages/TripDetailsPage"
 import ErrorPage from "../pages/ErrorPage";
 
-export const Rotas = () => {
+const Rotas = () => {
   return (
     <div>
       <BrowserRouter>
@@ -28,4 +28,5 @@ export const Rotas = () => {
   );
 };
 
+export default Rotas;
  
