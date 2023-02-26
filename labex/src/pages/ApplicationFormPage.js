@@ -1,114 +1,91 @@
-import React, { useEffect, useState } from "react";
-import api from "../components/ConfigApi";
-import styled from "styled-components"
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import Header from "../components/Header";
+import axios from "axios";
+import { URL_BASE } from "../components/UrlBase";
+import { useNavigate, useParams } from "react-router-dom";
+import { ContainerForm, Inputs, ContainerGeral, Astronauta, Botoes } from "../Styled/StyledApplyForm"
+import useForm from "../Hooks/useForm";
+import { goToTripsList, goToErrorPage } from "../Routes/RouteFunctions";
+import astronauta2 from "../img/astronauta2.png"
 
-function ApplicationFormPage(props) {
+function ApplicationFormPage() {
 
-    const navigate = useNavigate()
+    const { form, onChange, cleanFields } = useForm({ name: "", age: "", applicationText: "", profession: "", country: "" });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const { id } = useParams();
+    const navigate = useNavigate();
 
-    //o "estado"
 
-    const [name, setName] = useState("");
-    const [age, setAge] = useState("");
-    const [text, setText] = useState("");
-    const [profession, setProfession] = useState("")
-    const [country, setCountry] = useState("")
+    const apllyToTrip = (event) => {
+        event.preventDefault();
+        setLoading(true);
 
-     //POST PARA ENVIAR DADOS DO VIAJANTE -- endpoint do apply to trip
-
-    const apllyToTrip = (id) => {
-
-        const body = {
-            "name": name,
-            "age": age,
-            "applicationText": text,
-            "profession": profession,
-            "country": country
-        }
-
-        api.post(`/trips/${id}/apply`, body)
+        axios.post(`${URL_BASE}/trips/${id}/apply`, form)
             .then(() => {
-                confereAge()
-                console.log("deu certo!!")
-                limpaInput()
+                setLoading(false)
+                alert("Obrigada por se inscrever")
+                cleanFields()
+                goToTripsList(navigate)
             })
             .catch((error) => {
-                console.log(error.response.data)
-                limpaInput()
+                setLoading(false)
+                setError(error.data)
+                cleanFields()
             })
-    }
+    };
 
-    //função para limpar os inputs após envio do formulário
-
-    const limpaInput = () => {
-        return setName(""),
-            setAge(""),
-            setText(""),
-            setProfession(""),
-            setCountry("")
-    }
-
-
-    //onChange para os Inputs controlados
-
-    const onChangeName = (event) => {
-        setName(event.target.value)
-    }
-
-    const onChangeAge = (event) => {
-        setAge(event.target.value)
-    }
-
-    const onChangeApplyText = (event) => {
-        setText(event.target.value)
-    }
-
-    const onChangeProfession = (event) => {
-        setProfession(event.target.value)
-    }
-
-    const onChangeCountry = (event) => {
-        setCountry(event.target.value)
-    }
-
-
-    //FUNÇÃO PARA VERIFICAR SE TEM MAIS DE 18 ANOS
-
-    const confereAge = () => {
-        if (age < 18) {
-            alert("voce nao pode se inscrever, e menor de idade")
-        }
-    }
-
+    console.log('form', form)
     return (
         <div>
-           <h1>Formulário de Inscrição</h1> 
-           
-            <form>
-                <input value={name}
-                    onChange={onChangeName}
-                    placeholder="Digite seu nome completo"></input>
-                <input value={age}
-                    onChange={onChangeAge}
-                    placeholder="Digite sua idade"></input>
-                <input value={text}
-                    onChange={onChangeApplyText}
-                    placeholder="Digite o porquê quer viajar"></input>
-                <input value={profession}
-                    onChange={onChangeProfession}
-                    placeholder="Digite seua profissão"></input>
-                <input value={country}
-                    onChange={onChangeCountry}
-                    placeholder="Digite seu país"></input>
-                
-                <button onClick={() => apllyToTrip(props.id)}>Apply</button>
-            </form>
+            <Header
+                nome={"forms"}
+            />
             
+            {/* {loading && <CircularProgress />} */}
+            {!loading && error && goToErrorPage(navigate)}
+            <ContainerGeral>
+            <Astronauta src={astronauta2} alt="astronauta"/>
+                <ContainerForm onSubmit={apllyToTrip}>
+                    <Inputs
+                        value={form.name}
+                        onChange={onChange}
+                        placeholder={"Nome"}
+                        name={"name"}
+                        required
+                    ></Inputs>
+                    <Inputs
+                        value={form.age}
+                        onChange={onChange}
+                        placeholder={"Idade"}
+                        name={"age"}
+                        min={18}
+                        required
+                    ></Inputs>
+                    <Inputs
+                        value={form.applicationText}
+                        onChange={onChange}
+                        placeholder={"Porquê quer viajar"}
+                        name={"applicationText"}
+                    ></Inputs>
+                    <Inputs
+                        value={form.profession}
+                        onChange={onChange}
+                        placeholder={"Profissão"}
+                        name={"profession"}
+                    ></Inputs>
+                    <Inputs
+                        value={form.country}
+                        onChange={onChange}
+                        placeholder={"País"}
+                        name={"country"}
+                        required
+                    ></Inputs>
 
-            <button onClick={() => navigate("/trips/list")}>Voltar</button>
-
-        </div>
+                    <Botoes variant="outlined">Apply</Botoes>
+                </ContainerForm>
+            </ContainerGeral>
+        </div >
     )
 }
 
