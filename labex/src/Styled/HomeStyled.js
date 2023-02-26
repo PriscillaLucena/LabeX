@@ -19,15 +19,11 @@ export const ContainerBotoes = styled.div`
     margin-left: 75%;
 `
 
-export const Botoes = styled.button`
+export const Botoes = styled.a`
     display: flex;
     align-items: center;
     padding: 1rem;
-    weight: 4rem;
-    height: 3rem;
     font-size: 1.2rem;
-    border-radius: 10px 20px;
-    background-color: #BA55D3;
     cursor: pointer;
     font-weight: 600;
     font-family: 'Advent Pro';

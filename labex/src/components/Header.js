@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { goToLogin, goToTripsList, goToAdminTripsList, goToAdminTipsCreate, goToHome, } from "../Routes/RouteFunctions";
-import { ContainerGeral, Botoes } from "../Styled/StyledHeader"
+import { ContainerGeral, ContainerBotoes, Botoes, Letras, BotoesPagAdm } from "../Styled/StyledHeader"
 
 export default function Header(props) {
 
@@ -9,36 +9,36 @@ export default function Header(props) {
     const Header = (nome) => {
         switch (nome) {
             case "trips detail":
-                return <div>
-                    <h2>DETALHES DAS VIAGENS</h2>
+                return <ContainerBotoes>
+                    <Letras>DETALHES DAS VIAGENS</Letras>
                     <Botoes variant="outlined" onClick={() => goToAdminTripsList(navigate)}>Voltar</Botoes>
-                </div>
+                </ContainerBotoes>
             case "admin home":
-                return <div>
-                    <h2>PÁGINA DO ADMINISTRADOR</h2>
-                    <Botoes variant="outlined" onClick={() => goToLogin(navigate)}>Voltar</Botoes>
-                    <Botoes variant="outlined" onClick={() => goToAdminTipsCreate(navigate)}>Criar Viagem</Botoes>
-                </div>
+                return <ContainerBotoes>
+                    <Letras>PÁGINA DO ADMINISTRADOR</Letras>
+                    <BotoesPagAdm variant="outlined" onClick={() => goToLogin(navigate)}>Voltar</BotoesPagAdm>
+                    <BotoesPagAdm variant="outlined" onClick={() => goToAdminTipsCreate(navigate)}>Criar Viagem</BotoesPagAdm>
+                </ContainerBotoes>
             case "create trip":
-                return <div>
-                    <h2>CRIAR VIAGEM</h2>
+                return <ContainerBotoes>
+                    <Letras>CRIAR VIAGEM</Letras>
                     <Botoes variant="outlined" onClick={() => goToAdminTripsList(navigate)}>Voltar</Botoes>
-                </div>
+                </ContainerBotoes>
             case "list trips":
-                return <div>
-                    <h2>LISTA DE VIAGENS</h2>
+                return <ContainerBotoes>
+                    <Letras>LISTA DE VIAGENS</Letras>
                     <Botoes variant="outlined" onClick={() => goToHome(navigate)}>Voltar</Botoes>
-                </div>
+                </ContainerBotoes>
             case "login":
-                return <div>
-                    <h2>LOGIN</h2>
+                return <ContainerBotoes>
+                    <Letras>LOGIN</Letras>
                     <Botoes variant="outlined" onClick={() => goToHome(navigate)}>Voltar</Botoes>
-                </div>
+                </ContainerBotoes>
             case "forms":
-                return <div>
-                    <h2>FORMULÁRIO DE INSCRIÇÃO</h2>
+                return <ContainerBotoes>
+                    <Letras>FORMULÁRIO DE INSCRIÇÃO</Letras>
                     <Botoes variant="outlined" onClick={() => goToTripsList(navigate)}>Voltar</Botoes>
-                </div>
+                </ContainerBotoes>
         }
     };
 
