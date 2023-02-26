@@ -3,23 +3,27 @@ import { URL_BASE } from "../components/UrlBase";
 import { useProtectedPage } from "../Hooks/useProtectedPage";
 import Header from "../components/Header";
 import axios from "axios";
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
+import { goToErrorPage } from "../Routes/RouteFunctions";
+import { useNavigate } from "react-router-dom";
 
 
 export default function CreateTripPage() {
 
     useProtectedPage();
-
-    const [name, setName] = useState('')
-    const [planet, setPlanet] = useState('')
-    const [date, setDate] = useState('')
-    const [description, setDescription] = useState('')
-    const [durationInDays, setDurationInDays] = useState('')
+    const navigate = useNavigate();
+    const [name, setName] = useState('');
+    const [planet, setPlanet] = useState('');
+    const [date, setDate] = useState('');
+    const [description, setDescription] = useState('');
+    const [durationInDays, setDurationInDays] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     //endpoint create trip
 
     const createTrip = async () => {
-
+        setLoading(true)
         const body =
         {
             name: name,
@@ -36,11 +40,13 @@ export default function CreateTripPage() {
                 }
             });
             console.log(response.data)
-            alert("deu certo")
+            setLoading(false)
+            alert("Viagem criada!")
             limpaInput()
         } catch (error) {
-            console.log(error.response)
-            alert("deu errado")
+            setLoading(false)
+            setError(error.response)
+            alert("deu erro!")
         }
     }
 
@@ -58,6 +64,8 @@ export default function CreateTripPage() {
             <Header
                 nome={"create trip"}
             />
+
+            {!loading && error && goToErrorPage(navigate)}
 
             <form>
                 <input
@@ -85,7 +93,7 @@ export default function CreateTripPage() {
                     onChange={(e) => setDurationInDays(e.target.value)}
                     value={durationInDays}></input>
 
-                <Button variant="outlined" onClick={() => createTrip()}>Enviar</Button>
+                <button variant="outlined" onClick={() => createTrip()}>Enviar</button>
             </form>
         </div>
     )

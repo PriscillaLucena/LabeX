@@ -4,19 +4,19 @@ import Header from "../components/Header";
 import { URL_BASE } from "../components/UrlBase";
 import axios from "axios";
 import { goToAdminTripsList } from "../Routes/RouteFunctions";
-// import Button from '@mui/material/Button';
+import { ContainerGeral, Inputs, ContainerForm, Botoes, Astronauta } from "../Styled/StyledLoginPage";
+import astronauta from "../img/astronauta.png"
 
 
 export default function LoginPage() {
 
-    const navigate = useNavigate ();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    //endpoint login
 
     const submitLogin = async (e) => {
-    e.preventDefault()
+        e.preventDefault()
         const body = {
             email: email,
             password: password
@@ -36,25 +36,28 @@ export default function LoginPage() {
     return (
         <div>
             <Header
-            nome={"login"}
+                nome={"login"}
             />
-        <form onClick={submitLogin}>
-            <input
-                type="email"
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
-                placeholder="e-mail"
-            />
+            <ContainerGeral>
+                <Astronauta src={astronauta} alt="astronauta"/>
+                <ContainerForm onClick={submitLogin}>
+                    <Inputs
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="E-mail"
+                    />
 
-            <input
-                type="password"
-                value={password}
-                onChange={(e)=>setPassword(e.target.value)}
-                label="senha"
-            />
+                    <Inputs
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Senha"
+                    />
 
-            <button variant="outlined" >enviar</button>
-            </form>
+                    <Botoes variant="outlined" >enviar</Botoes>
+                </ContainerForm>
+            </ContainerGeral>
         </div>
     )
 }

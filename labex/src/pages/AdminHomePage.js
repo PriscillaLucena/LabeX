@@ -1,23 +1,17 @@
 import React from "react";
 import { URL_BASE } from "../components/UrlBase";
-import { useParams } from "react-router-dom";
 import { useProtectedPage } from "../Hooks/useProtectedPage";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header"
 import useRequestData from "../Hooks/useRequestData"
 import axios from "axios";
-// import Button from '@mui/material/Button';
-// import CircularProgress from '@mui/material/CircularProgress';
-// // import Alert from '@mui/material/Alert';
-// import AlertTitle from '@mui/material/AlertTitle';
-import { goToDetailTripsList } from "../Routes/RouteFunctions";
+import { goToDetailTripsList, goToErrorPage } from "../Routes/RouteFunctions";
+import { ContainerCard, ContainerGeral, Botoes, ContainerBotoes } from "../Styled/StyledAdminHomePage";
 
 export default function AdminHomePage() {
 
-    const [data, loading, error, GetTrip] = useRequestData(`${URL_BASE}/trips`)
-    const navigate = useNavigate()
-    const { id } = useParams
-
+    const [data, loading, error, GetTrip] = useRequestData(`${URL_BASE}/trips`);
+    const navigate = useNavigate();
     useProtectedPage();
 
 
@@ -36,10 +30,13 @@ export default function AdminHomePage() {
     }
 
     const listaViagens = data && data.map((viagem) => {
-        return <div key={viagem.id}>
-            <h3 onClick={() => goToDetailTripsList(navigate, viagem.id)}> Viagem: {viagem.name}</h3>
-            <button variant="outlined" onClick={() => deleteTrip(viagem.id)}>Delete</button>
-        </div>
+        return <ContainerCard key={viagem.id}>
+            <h3> Viagem: {viagem.name}</h3>
+            <ContainerBotoes>
+            <Botoes onClick={() => goToDetailTripsList(navigate, viagem.id)}>Informações </Botoes>
+            <Botoes variant="outlined" onClick={() => deleteTrip(viagem.id)}>Delete</Botoes>
+            </ContainerBotoes>
+        </ContainerCard>
     })
 
     return (
@@ -48,14 +45,12 @@ export default function AdminHomePage() {
             <Header
                 nome={"admin home"}
             />
-            {/* {loading && <CircularProgress />}
-            {!loading && error && <Alert severity="error">
-                <AlertTitle>Error</AlertTitle>
-                This is an error alert — <strong>check it out!</strong>
-            </Alert>} */}
-            {!loading && data && data.length > 0 && listaViagens}
-            {!loading && data && data.length === 0 && <p>Não há viagens!</p>}
-
+            <ContainerGeral>
+                {/* {loading && <CircularProgress />} */}
+                {!loading && error && goToErrorPage(navigate)}
+                {!loading && data && data.length > 0 && listaViagens}
+                {!loading && data && data.length === 0 && <p>Não há viagens!</p>}
+            </ContainerGeral>
         </div>
     )
 }

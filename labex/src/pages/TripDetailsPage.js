@@ -1,38 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { URL_BASE } from "../components/UrlBase";
 import { useProtectedPage } from "../Hooks/useProtectedPage"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import axios from "axios";
-// import Button from '@mui/material/Button';
+import { goToErrorPage } from "../Routes/RouteFunctions";
+import { ContainerGeral, CardInfoViagem, ContainerCard, CardViagem, CardAprovados, Centraliza, Botoes, ContainerBotoes,
+    Astronauta } from "../Styled/StyledTripDetails";
+import astrouauta4 from "../img/astronauta4.png"
 
 export default function TripDetailsPage() {
 
     useProtectedPage();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [detail, setDetail] = useState({});
+    const [candidatos, setCandidatos] = useState([]);
+    const [approved, setApproved] = useState([]);
+    const { id } = useParams();
+    const navigate = useNavigate();
 
-    const [detail, setDetail] = useState({})
-    const [candidatos, setCandidatos] = useState([])
-    const [approved, setApproved] = useState([])
-    const { id } = useParams()
 
-    console.log('candidatos', candidatos)
-    console.log('detail', detail)
-    console.log('approved', approved)
-
-    useEffect(() => { getCandidatos() }, [id]);
+    useEffect(() => { getCandidatos() });
     const getCandidatos = () => {
-
+        setLoading(true)
         axios.get(`${URL_BASE}/trip/${id}`, {
             headers: {
                 auth: localStorage.getItem("token")
             }
         })
             .then((response) => {
+                setLoading(false)
                 setDetail(response.data.trip)
                 setApproved(response.data.trip.approved)
                 setCandidatos(response.data.trip.candidates)
             })
             .catch((error) => {
+                setLoading(false)
+                setError(error.response)
                 console.log(error.response)
             })
     }
@@ -60,19 +65,21 @@ export default function TripDetailsPage() {
     };
 
     const listaCandidatos = candidatos.map((cand) => {
-        return <div key={cand.id}>
-            <p>Nome:{cand.name}</p>
-            <p>Texto: {cand.applicationText}</p>
-            <p>Idade: {cand.age}</p>
-            <p>País: {cand.country}</p>
-            <button variant="outlined" onClick={() => decideCandidate(true, cand.id)} >aceitar</button>
-            <button variant="outlined" onClick={() => decideCandidate(false, cand.id)} >reprovar</button>
-        </div>
+        return <CardViagem key={cand.id}>
+            <p><strong>Nome:</strong>{cand.name}</p>
+            <p><strong>Texto:</strong> {cand.applicationText}</p>
+            <p><strong>Idade:</strong> {cand.age}</p>
+            <p><strong>País:</strong> {cand.country}</p>
+            <ContainerBotoes>
+                <Botoes variant="outlined" onClick={() => decideCandidate(true, cand.id)} >ACEITAR</Botoes>
+                <Botoes variant="outlined" onClick={() => decideCandidate(false, cand.id)} >REPROVAR</Botoes>
+            </ContainerBotoes>
+        </CardViagem>
     });
 
     const listaAprovados = approved.map((cand) => {
         return <div>
-            <p>Nome: {cand.name}</p>
+            <p>{cand.name}</p>
         </div>
     });
 
@@ -81,15 +88,25 @@ export default function TripDetailsPage() {
             <Header
                 nome={"trips detail"}
             />
-            <h3>Viagem: {detail.name}</h3>
-            <p><strong>Descrição:</strong>{detail.description}</p>
-            <p><strong>Planeta:</strong>{detail.planet}</p>
-            <p><strong>Data:</strong>{detail.date}</p>
-            <p><strong>Duração:</strong>{detail.durationInDays}</p>
-            <h3><strong>Candidatos:</strong></h3>
-            {candidatos.length > 0 ? listaCandidatos : <h3>Ainda não há ninguém inscrito!</h3>}
-            <h4>Candidatos aprovados:</h4>
-            {listaAprovados}
+            <ContainerGeral>
+                {!loading && error && goToErrorPage(navigate)}
+                <CardInfoViagem>
+                    <h3>Viagem: {detail.name}</h3>
+                    <p><strong>Descrição:</strong>{detail.description}</p>
+                    <p><strong>Planeta:</strong>{detail.planet}</p>
+                    <p><strong>Data:</strong>{detail.date}</p>
+                    <p><strong>Duração:</strong>{detail.durationInDays}</p>
+                    <h3><strong>Candidatos:</strong></h3>
+                    <Astronauta src={astrouauta4} alt="astronauta"/>
+                </CardInfoViagem>
+                <ContainerCard>
+                    {candidatos.length > 0 ? listaCandidatos : <Centraliza>Ainda não há ninguém inscrito!</Centraliza>}
+                </ContainerCard>
+                <CardAprovados>
+                    <h4>Candidatos aprovados:</h4>
+                    {approved.length > 0 ? listaAprovados : <Centraliza>Ainda não há ninguém aprovado!</Centraliza>}
+                </CardAprovados>
+            </ContainerGeral>
         </div>
     )
 }

@@ -22,7 +22,11 @@ export const goToAdminTipsCreate =(navigate)=>{
     navigate("/admin/trips/create")
 }
 
-export const goToAplly =(navigate, id, name)=>{
-    navigate(`/trips/application/${id}`)
+export const goToAplly =(navigate, id)=>{
+    navigate(`/trips/apply/${id}`)
+}
+
+export const goToErrorPage =(navigate)=>{
+    navigate("*")
 }
 

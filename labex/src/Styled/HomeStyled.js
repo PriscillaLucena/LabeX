@@ -17,13 +17,12 @@ export const ContainerGeral = styled.div`
 export const ContainerBotoes = styled.div`
     display: flex;
     justify-content: center;
-    justify-content: space-evenly;
+    gap: 2rem;
 `
 
 export const Botoes = styled.button`
     display: flex;
     align-items: center;
-    /* margin: 1rem; */
     padding: 1rem;
     weight: 4rem;
     height: 3rem;
@@ -49,3 +48,10 @@ export const Letras2 = styled.span`
     color: #800080;
 `
    
+export const Astronauta = styled.img`
+    width: 10%;
+    height: auto;
+    position: absolute;
+    top: 40%;
+    left: 70%;
+`
