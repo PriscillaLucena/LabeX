@@ -3,9 +3,10 @@ import { URL_BASE } from "../components/UrlBase";
 import { useProtectedPage } from "../Hooks/useProtectedPage";
 import Header from "../components/Header";
 import axios from "axios";
-// import Button from '@mui/material/Button';
 import { goToErrorPage } from "../Routes/RouteFunctions";
 import { useNavigate } from "react-router-dom";
+import { ContainerGeral, Botoes, ContainerForm, Inputs, Astronauta } from "../Styled/StyledCreateTrip";
+import astronauta5 from "../img/astronauta5.png"
 
 
 export default function CreateTripPage() {
@@ -64,37 +65,38 @@ export default function CreateTripPage() {
             <Header
                 nome={"create trip"}
             />
+            <ContainerGeral>
+                {!loading && error && goToErrorPage(navigate)}
+                <Astronauta src={astronauta5} alt="astronauta" />
+                <ContainerForm>
+                    <Inputs
+                        placeholder="Nome Viagem"
+                        onChange={(e) => setName(e.target.value)}
+                        value={name} />
 
-            {!loading && error && goToErrorPage(navigate)}
+                    <Inputs
+                        placeholder="Nome Planeta"
+                        onChange={(e) => setPlanet(e.target.value)}
+                        value={planet} />
 
-            <form>
-                <input
-                    placeholder="Nome Viagem"
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}></input>
+                    <Inputs
+                        placeholder="Data Viagem"
+                        onChange={(e) => setDate(e.target.value)}
+                        value={date}></Inputs>
 
-                <input
-                    placeholder="Nome Planeta"
-                    onChange={(e) => setPlanet(e.target.value)}
-                    value={planet}></input>
+                    <Inputs
+                        placeholder="Descrição Viagem"
+                        onChange={(e) => setDescription(e.target.value)}
+                        value={description} />
 
-                <input
-                    placeholder="Data Viagem"
-                    onChange={(e) => setDate(e.target.value)}
-                    value={date}></input>
+                    <Inputs
+                        placeholder="Duração em dias"
+                        onChange={(e) => setDurationInDays(e.target.value)}
+                        value={durationInDays} />
 
-                <input
-                    placeholder="Descrição Viagem"
-                    onChange={(e) => setDescription(e.target.value)}
-                    value={description}></input>
-
-                <input
-                    placeholder="Duração em dias"
-                    onChange={(e) => setDurationInDays(e.target.value)}
-                    value={durationInDays}></input>
-
-                <button variant="outlined" onClick={() => createTrip()}>Enviar</button>
-            </form>
+                    <Botoes variant="outlined" onClick={() => createTrip()}>Enviar</Botoes>
+                </ContainerForm>
+            </ContainerGeral>
         </div>
     )
 }

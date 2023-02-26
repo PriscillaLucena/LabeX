@@ -9,6 +9,13 @@ export const ContainerGeral = styled.div`
     position: relative;
     height: 86vh;
 `
+export const Astronauta = styled.img`
+    width: 20%;
+    height: auto;
+    position: absolute;
+    top: 18%;
+    left: 50%;
+`
 
 export const ContainerForm = styled.form`
     display: flex;
@@ -17,10 +24,10 @@ export const ContainerForm = styled.form`
     margin-left: 25%;
     border: 1px solid;
     padding: 1.2rem;
-    border-radius: 10px 20px;
+    border-radius: 10px 30px;
     flex-direction: column;
     row-gap: 1rem;
-    width: 40%;
+    width: 30%;
     background: linear-gradient(#e66465, #BA55D3);
 `
 
@@ -33,6 +40,7 @@ export const Inputs = styled.input`
     font-weight: 200;
     font-size: 1.1rem;
     padding: 1vh;
+    opacity: none;
 `
 
 export const Botoes = styled.button`
@@ -42,13 +50,10 @@ export const Botoes = styled.button`
     cursor: pointer;
     border-radius: 10px;
     font-family: 'Advent Pro';
-    font-size: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #00008B;
+    text-shadow: 0 0 0.2em #87F, 0 0 0.2em #87F,
+        0 0 0.2em #87F;
 `
 
-export const Astronauta = styled.img`
-    width: 20%;
-    height: auto;
-    position: absolute;
-    top: 18%;
-    left: 60%;
-`

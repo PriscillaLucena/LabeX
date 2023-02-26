@@ -15,7 +15,7 @@ export default function ListTripsPage() {
 
     const listaViagens = data && data.map((viagem) => {
         return <ContainerCard key={viagem.id}>
-            <h3 >Viagem: {viagem.name}</h3>
+            <h3>{viagem.name.toUpperrCase()}</h3>
             <p ><strong>Descrição:</strong> {viagem.description}</p>
             <p ><strong>Planeta:</strong> {viagem.planet}</p>
             <p ><strong>Data:</strong> {viagem.date}</p>

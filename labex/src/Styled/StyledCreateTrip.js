@@ -8,8 +8,6 @@ export const ContainerGeral = styled.div`
     font-family: 'Advent Pro';
     position: relative;
     height: 86vh;
-    color: #C0C0C0;
-    text-shadow: black 0.1em 0.1em 0.2em;
 `
 
 export const ContainerForm = styled.form`
@@ -24,7 +22,6 @@ export const ContainerForm = styled.form`
     row-gap: 1rem;
     width: 40%;
     background: linear-gradient(#e66465, #BA55D3);
-    border-color: #8A2BE2;
 `
 
 export const Inputs = styled.input`

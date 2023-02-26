@@ -9,7 +9,8 @@ export const ContainerGeral = styled.div`
     font-family: 'Advent Pro';
     font-weight: 300;
     font-size: 1.2rem;
-    color: #363636;
+    color: #C0C0C0;
+    text-shadow: black 0.1em 0.1em 0.2em;
 `
 export const ContainerCard = styled.div`
     display: flex;
@@ -20,6 +21,7 @@ export const ContainerCard = styled.div`
     border: 1px solid;
     border-radius: 10px;
     background: linear-gradient(#e66465, #9198e5);
+    border-color: #8A2BE2;
 `
 export const ContainerBotoes = styled.span`
     display: flex;
@@ -30,9 +32,13 @@ export const ContainerBotoes = styled.span`
 export const Botoes = styled.button`
     height: 5vh;
     width: 15vh;
-    background-color: #9932CC;
+    background-color: #8A2BE2;
     cursor: pointer;
     border-radius: 10px;
     font-family: 'Advent Pro';
-    font-size: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #00008B;
+    text-shadow: 0 0 0.2em #87F, 0 0 0.2em #87F,
+        0 0 0.2em #87F;
 `

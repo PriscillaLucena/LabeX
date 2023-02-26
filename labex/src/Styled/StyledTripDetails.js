@@ -70,7 +70,11 @@ export const Botoes = styled.button`
     cursor: pointer;
     border-radius: 10px;
     font-family: 'Advent Pro';
-    font-size: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #00008B;
+    text-shadow: 0 0 0.2em #87F, 0 0 0.2em #87F,
+        0 0 0.2em #87F;
 `
 export const ContainerBotoes = styled.span`
     display: flex;
