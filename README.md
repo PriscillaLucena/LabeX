@@ -1,12 +1,15 @@
-# 👩‍🚀 Viagens ao Espaço LabeX 👨‍🚀#
+# 👩‍🚀 Viagens ao Espaço LabeX 👨‍🚀
 
 <h2> 🚀 Link do Surge: </h2>
-<a> alert-bells.surge.sh </a>
+alert-bells.surge.sh
 
 <h2 text-align="center">Home</h2>
 <img src="https://user-images.githubusercontent.com/98128470/221431068-7776ad93-0dc9-4eef-9ed8-707a2040b32d.png"/>
 
 <h2 text-align="center">Login</h2>
+</br>
+<p>Login: adm@adm.com</br>
+Senha: 123456</p>
 <img src="https://user-images.githubusercontent.com/98128470/221431270-0c05d653-3a7d-4f79-b81e-2c359487e2bb.png"/>
 
 <h2 text-align="center">Administrador</h2>
