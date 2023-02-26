@@ -1,11 +1,22 @@
 # 👩‍🚀 Viagens ao Espaço LabeX 👨‍🚀
 
-<p> Trabalho de front-end realizado individualmente </p>
+<p> Trabalho de front-end para WEB realizado individualmente </p>
 
 <h4>API LabeX: https://documenter.getpostman.com/view/9133542/TzCTZkQr </h4>
 
 <h2> 🚀 Link do Surge: </h2>
 alert-bells.surge.sh
+
+# Tecnolgias:
+
+<ul>
+  <li>React.js</li>
+    <li>Rotas React</li>
+    <li>Custom Hooks</li>
+    <li>Autenticação</li>
+    <li>React form</li>
+    <li>Styled-Components</li>
+</ul>
 
 <h2 text-align="center">Home</h2>
 <img src="https://user-images.githubusercontent.com/98128470/221431068-7776ad93-0dc9-4eef-9ed8-707a2040b32d.png"/>
